@@ -17,6 +17,11 @@ Environment:
 
 #include "Driver.h"
 #include "Driver.tmh"
+#include<fstream>
+#include<sstream>
+#include<string>
+#include<tuple>
+#include<vector>
 
 using namespace std;
 using namespace Microsoft::IndirectDisp;
@@ -31,11 +36,17 @@ EVT_IDD_CX_ADAPTER_INIT_FINISHED IddSampleAdapterInitFinished;
 EVT_IDD_CX_ADAPTER_COMMIT_MODES IddSampleAdapterCommitModes;
 
 EVT_IDD_CX_PARSE_MONITOR_DESCRIPTION IddSampleParseMonitorDescription;
+EVT_IDD_CX_PARSE_MONITOR_DESCRIPTION IddSampleParseMonitorDescription2;
 EVT_IDD_CX_MONITOR_GET_DEFAULT_DESCRIPTION_MODES IddSampleMonitorGetDefaultModes;
 EVT_IDD_CX_MONITOR_QUERY_TARGET_MODES IddSampleMonitorQueryModes;
+EVT_IDD_CX_MONITOR_QUERY_TARGET_MODES IddSampleMonitorQueryModes2;
 
 EVT_IDD_CX_MONITOR_ASSIGN_SWAPCHAIN IddSampleMonitorAssignSwapChain;
 EVT_IDD_CX_MONITOR_UNASSIGN_SWAPCHAIN IddSampleMonitorUnassignSwapChain;
+
+vector<tuple<int, int, int>> monitorModes;
+vector< DISPLAYCONFIG_VIDEO_SIGNAL_INFO> s_KnownMonitorModes2;
+UINT numVirtualDisplays;
 
 struct IndirectDeviceContextWrapper
 {
@@ -87,7 +98,32 @@ extern "C" NTSTATUS DriverEntry(
 
     return Status;
 }
+vector<string> split(string& input, char delimiter)
+{
+    istringstream stream(input);
+    string field;
+    vector<string> result;
+    while (getline(stream, field, delimiter)) {
+        result.push_back(field);
+    }
+    return result;
+}
 
+void loadOptions(string filepath) {
+    ifstream ifs(filepath);
+
+    string line;
+    vector<tuple<int, int, int>> res;
+    getline(ifs, line);//num of displays
+    numVirtualDisplays = stoi(line);
+    while (getline(ifs, line)) {
+        vector<string> strvec = split(line, ',');
+        if (strvec.size() == 3 && strvec[0].substr(0, 1) != "#") {
+            res.push_back({ stoi(strvec[0]),stoi(strvec[1]),stoi(strvec[2]) });
+        }
+    }
+    monitorModes = res; return;
+}
 _Use_decl_annotations_
 NTSTATUS IddSampleDeviceAdd(WDFDRIVER Driver, PWDFDEVICE_INIT pDeviceInit)
 {
@@ -107,7 +143,7 @@ NTSTATUS IddSampleDeviceAdd(WDFDRIVER Driver, PWDFDEVICE_INIT pDeviceInit)
     // If the driver wishes to handle custom IoDeviceControl requests, it's necessary to use this callback since IddCx
     // redirects IoDeviceControl requests to an internal queue. This sample does not need this.
     // IddConfig.EvtIddCxDeviceIoControl = IddSampleIoDeviceControl;
-
+    loadOptions("C:\\IddSampleDriver\\option.txt");
     IddConfig.EvtIddCxAdapterInitFinished = IddSampleAdapterInitFinished;
 
     IddConfig.EvtIddCxParseMonitorDescription = IddSampleParseMonitorDescription;
@@ -285,7 +321,7 @@ void SwapChainProcessor::RunCore()
         if (hr == E_PENDING)
         {
             // We must wait for a new buffer
-            HANDLE WaitHandles [] =
+            HANDLE WaitHandles[] =
             {
                 m_hAvailableBufferEvent,
                 m_hTerminateEvent.Get()
@@ -352,8 +388,8 @@ void SwapChainProcessor::RunCore()
 const UINT64 MHZ = 1000000;
 const UINT64 KHZ = 1000;
 
-constexpr DISPLAYCONFIG_VIDEO_SIGNAL_INFO dispinfo(UINT32 h, UINT32 v) {
-    const UINT32 clock_rate = 60 * (v + 4) * (v + 4) + 1000;
+constexpr DISPLAYCONFIG_VIDEO_SIGNAL_INFO dispinfo(UINT32 h, UINT32 v, UINT32 r) {
+    const UINT32 clock_rate = r * (v + 4) * (v + 4) + 1000;
     return {
       clock_rate,                                      // pixel clock rate [Hz]
     { clock_rate, v + 4 },                         // fractional horizontal refresh rate [Hz]
@@ -364,76 +400,26 @@ constexpr DISPLAYCONFIG_VIDEO_SIGNAL_INFO dispinfo(UINT32 h, UINT32 v) {
     DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE
     };
 }
-// A list of modes exposed by the sample monitor EDID - FOR SAMPLE PURPOSES ONLY
-const DISPLAYCONFIG_VIDEO_SIGNAL_INFO IndirectDeviceContext::s_KnownMonitorModes[] =
-{
-    // 640 x 480 @ 60Hz
-    {
-          25249 * KHZ,                                   // pixel clock rate [Hz]
-        { 25249 * KHZ, 640 + 160 },                      // fractional horizontal refresh rate [Hz]
-        { 25249 * KHZ, (640 + 160) * (480 + 46) },       // fractional vertical refresh rate [Hz]
-        { 640, 480 },                                    // (horizontal, vertical) active pixel resolution
-        { 640 + 160, 480 + 46 },                         // (horizontal, vertical) blanking pixel resolution
-        { { 255, 0 } },                                  // video standard and vsync divider
-        DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE
-    },
-    // 800 x 600 @ 60Hz
-    {
-          40 * MHZ,                                      // pixel clock rate [Hz]
-        { 40 * MHZ, 800 + 256 },                         // fractional horizontal refresh rate [Hz]
-        { 40 * MHZ, (800 + 256) * (600 + 28) },          // fractional vertical refresh rate [Hz]
-        { 800, 600 },                                    // (horizontal, vertical) active pixel resolution
-        { 800 + 256, 600 + 28 },                         // (horizontal, vertical) total pixel resolution
-        { { 255, 0 }},                                   // video standard and vsync divider
-        DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE
-    },
-    // 1920 x 1280 @ 60Hz
-{
-      40 * MHZ,                                      // pixel clock rate [Hz]
-    { 40 * MHZ, 800 + 256 },                         // fractional horizontal refresh rate [Hz]
-    { 40 * MHZ, (800 + 256) * (600 + 28) },          // fractional vertical refresh rate [Hz]
-    { 1920, 1280 },                                    // (horizontal, vertical) active pixel resolution
-    { 1920 + 256, 1280 + 28 },                         // (horizontal, vertical) total pixel resolution
-    { { 255, 0 }},                                   // video standard and vsync divider
-    DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE
-},
-dispinfo(1920, 1200),
-dispinfo(1920, 1440),
-dispinfo(2560, 1440),
-dispinfo(2560, 1600),
-dispinfo(2880, 1620),
-dispinfo(2880, 1800),
-dispinfo(3008, 1692),
-dispinfo(3200, 1800),
-dispinfo(3200, 2400),
-dispinfo(3840, 2160),
-dispinfo(3840, 2400),
-dispinfo(4096, 2304),
-dispinfo(4096, 2560),
-dispinfo(5120, 2880),
-dispinfo(6016, 3384),
-dispinfo(7680, 4320),
-};
 
 // This is a sample monitor EDID - FOR SAMPLE PURPOSES ONLY
 const BYTE IndirectDeviceContext::s_KnownMonitorEdid[] =
 {
-  /*  0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x79,0x5E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xA6,0x01,0x03,0x80,0x28,
-    0x1E,0x78,0x0A,0xEE,0x91,0xA3,0x54,0x4C,0x99,0x26,0x0F,0x50,0x54,0x20,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,
-    0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0xA0,0x0F,0x20,0x00,0x31,0x58,0x1C,0x20,0x28,0x80,0x14,0x00,
-    0x90,0x2C,0x11,0x00,0x00,0x1E,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-    0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-    0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x6E */
+    /*  0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x79,0x5E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xA6,0x01,0x03,0x80,0x28,
+      0x1E,0x78,0x0A,0xEE,0x91,0xA3,0x54,0x4C,0x99,0x26,0x0F,0x50,0x54,0x20,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,
+      0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0xA0,0x0F,0x20,0x00,0x31,0x58,0x1C,0x20,0x28,0x80,0x14,0x00,
+      0x90,0x2C,0x11,0x00,0x00,0x1E,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+      0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+      0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x6E */
 
-    0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x31, 0xD8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x05, 0x16, 0x01, 0x03, 0x6D, 0x32, 0x1C, 0x78, 0xEA, 0x5E, 0xC0, 0xA4, 0x59, 0x4A, 0x98, 0x25,
-    0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xD1, 0xC0, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3A, 0x80, 0x18, 0x71, 0x38, 0x2D, 0x40, 0x58, 0x2C,
-    0x45, 0x00, 0xF4, 0x19, 0x11, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x4C, 0x69, 0x6E,
-    0x75, 0x78, 0x20, 0x23, 0x30, 0x0A, 0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xFD, 0x00, 0x3B,
-    0x3D, 0x42, 0x44, 0x0F, 0x00, 0x0A, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xFC,
-    0x00, 0x4C, 0x69, 0x6E, 0x75, 0x78, 0x20, 0x46, 0x48, 0x44, 0x0A, 0x20, 0x20, 0x20, 0x00, 0x05
-    
+      0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x31, 0xD8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x05, 0x16, 0x01, 0x03, 0x6D, 0x32, 0x1C, 0x78, 0xEA, 0x5E, 0xC0, 0xA4, 0x59, 0x4A, 0x98, 0x25,
+      0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xD1, 0xC0, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+      0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3A, 0x80, 0x18, 0x71, 0x38, 0x2D, 0x40, 0x58, 0x2C,
+      0x45, 0x00, 0xF4, 0x19, 0x11, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x4C, 0x69, 0x6E,
+      0x75, 0x78, 0x20, 0x23, 0x30, 0x0A, 0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xFD, 0x00, 0x3B,
+      0x3D, 0x42, 0x44, 0x0F, 0x00, 0x0A, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xFC,
+      0x00, 0x4C, 0x69, 0x6E, 0x75, 0x78, 0x20, 0x46, 0x48, 0x44, 0x0A, 0x20, 0x20, 0x20, 0x00, 0x05
+
 };
 
 IndirectDeviceContext::IndirectDeviceContext(_In_ WDFDEVICE WdfDevice) :
@@ -456,16 +442,16 @@ void IndirectDeviceContext::InitAdapter()
     //
     // This is also where static per-adapter capabilities are determined.
     // ==============================
-    
+
     IDDCX_ADAPTER_CAPS AdapterCaps = {};
     AdapterCaps.Size = sizeof(AdapterCaps);
-    
+
     // Declare basic feature support for the adapter (required)
-    AdapterCaps.MaxMonitorsSupported = NUM_VIRTUAL_DISPLAYS;
+    AdapterCaps.MaxMonitorsSupported = numVirtualDisplays;
     AdapterCaps.EndPointDiagnostics.Size = sizeof(AdapterCaps.EndPointDiagnostics);
     AdapterCaps.EndPointDiagnostics.GammaSupport = IDDCX_FEATURE_IMPLEMENTATION_NONE;
     AdapterCaps.EndPointDiagnostics.TransmissionType = IDDCX_TRANSMISSION_TYPE_WIRED_OTHER;
-    
+
     // Declare your device strings for telemetry (required)
     AdapterCaps.EndPointDiagnostics.pEndPointFriendlyName = L"IddSample Device";
     AdapterCaps.EndPointDiagnostics.pEndPointManufacturerName = L"Microsoft";
@@ -504,10 +490,10 @@ void IndirectDeviceContext::InitAdapter()
 
 void IndirectDeviceContext::FinishInit()
 {
-    for (unsigned int i = 0; i < NUM_VIRTUAL_DISPLAYS; i++) {
+    for (unsigned int i = 0; i < numVirtualDisplays; i++) {
         CreateMonitor(i);
     }
-} 
+}
 
 void IndirectDeviceContext::CreateMonitor(unsigned int index) {
     // ==============================
@@ -621,7 +607,6 @@ NTSTATUS IddSampleAdapterCommitModes(IDDCX_ADAPTER AdapterObject, const IDARG_IN
 
     return STATUS_SUCCESS;
 }
-
 _Use_decl_annotations_
 NTSTATUS IddSampleParseMonitorDescription(const IDARG_IN_PARSEMONITORDESCRIPTION* pInArgs, IDARG_OUT_PARSEMONITORDESCRIPTION* pOutArgs)
 {
@@ -630,9 +615,12 @@ NTSTATUS IddSampleParseMonitorDescription(const IDARG_IN_PARSEMONITORDESCRIPTION
     // this sample driver, we hard-code the EDID, so this function can generate known modes.
     // ==============================
 
-    pOutArgs->MonitorModeBufferOutputCount = ARRAYSIZE(IndirectDeviceContext::s_KnownMonitorModes);
+    for (int i = 0; i < monitorModes.size(); i++) {
+        s_KnownMonitorModes2.push_back(dispinfo(std::get<0>(monitorModes[i]), std::get<1>(monitorModes[i]), std::get<2>(monitorModes[i])));
+    }
+    pOutArgs->MonitorModeBufferOutputCount = (UINT)monitorModes.size();
 
-    if (pInArgs->MonitorModeBufferInputCount < ARRAYSIZE(IndirectDeviceContext::s_KnownMonitorModes))
+    if (pInArgs->MonitorModeBufferInputCount < monitorModes.size())
     {
         // Return success if there was no buffer, since the caller was only asking for a count of modes
         return (pInArgs->MonitorModeBufferInputCount > 0) ? STATUS_BUFFER_TOO_SMALL : STATUS_SUCCESS;
@@ -640,11 +628,11 @@ NTSTATUS IddSampleParseMonitorDescription(const IDARG_IN_PARSEMONITORDESCRIPTION
     else
     {
         // Copy the known modes to the output buffer
-        for (DWORD ModeIndex = 0; ModeIndex < ARRAYSIZE(IndirectDeviceContext::s_KnownMonitorModes); ModeIndex++)
+        for (DWORD ModeIndex = 0; ModeIndex < monitorModes.size(); ModeIndex++)
         {
             pInArgs->pMonitorModes[ModeIndex].Size = sizeof(IDDCX_MONITOR_MODE);
             pInArgs->pMonitorModes[ModeIndex].Origin = IDDCX_MONITOR_MODE_ORIGIN_MONITORDESCRIPTOR;
-            pInArgs->pMonitorModes[ModeIndex].MonitorVideoSignalInfo = IndirectDeviceContext::s_KnownMonitorModes[ModeIndex];
+            pInArgs->pMonitorModes[ModeIndex].MonitorVideoSignalInfo = s_KnownMonitorModes2[ModeIndex];
         }
 
         // Set the preferred mode as represented in the EDID
@@ -696,52 +684,19 @@ void CreateTargetMode(IDDCX_TARGET_MODE& Mode, UINT Width, UINT Height, UINT VSy
 }
 
 _Use_decl_annotations_
-NTSTATUS IddSampleMonitorQueryModes(IDDCX_MONITOR MonitorObject, const IDARG_IN_QUERYTARGETMODES* pInArgs, IDARG_OUT_QUERYTARGETMODES* pOutArgs)
+NTSTATUS IddSampleMonitorQueryModes(IDDCX_MONITOR MonitorObject, const IDARG_IN_QUERYTARGETMODES* pInArgs, IDARG_OUT_QUERYTARGETMODES* pOutArgs)////////////////////////////////////////////////////////////////////////////////
 {
     UNREFERENCED_PARAMETER(MonitorObject);
 
-    vector<IDDCX_TARGET_MODE> TargetModes(34);
+    vector<IDDCX_TARGET_MODE> TargetModes(monitorModes.size());
 
     // Create a set of modes supported for frame processing and scan-out. These are typically not based on the
     // monitor's descriptor and instead are based on the static processing capability of the device. The OS will
     // report the available set of modes for a given output as the intersection of monitor modes with target modes.
 
-
-    CreateTargetMode(TargetModes[0], 7680, 4320, 60);
-    CreateTargetMode(TargetModes[1], 6016, 3384, 60);
-    CreateTargetMode(TargetModes[2], 5120, 2880, 60);
-    CreateTargetMode(TargetModes[3], 4096, 2560, 60);
-    CreateTargetMode(TargetModes[4], 4096, 2304, 60);
-    CreateTargetMode(TargetModes[5], 3840, 2400, 60);
-    CreateTargetMode(TargetModes[6], 3840, 2160, 60);
-    CreateTargetMode(TargetModes[7], 3200, 2400, 60);
-    CreateTargetMode(TargetModes[8], 3200, 1800, 60);
-    CreateTargetMode(TargetModes[9], 3008, 1692, 60);
-    CreateTargetMode(TargetModes[10], 2880, 1800, 60);
-    CreateTargetMode(TargetModes[11], 2880, 1620, 60);
-    CreateTargetMode(TargetModes[12], 2560, 1600, 60);
-    CreateTargetMode(TargetModes[13], 2560, 1440, 60);
-    CreateTargetMode(TargetModes[14], 1920, 1440, 60);
-    CreateTargetMode(TargetModes[15], 1920, 1200, 60);
-
-    CreateTargetMode(TargetModes[16], 1920, 1080, 60);
-    CreateTargetMode(TargetModes[17], 1600, 1024, 60);
-    CreateTargetMode(TargetModes[18], 1680, 1050, 60);
-    CreateTargetMode(TargetModes[19], 1600, 900, 60);
-    CreateTargetMode(TargetModes[20], 1440, 900, 60);
-    CreateTargetMode(TargetModes[21], 1400, 1050, 60);
-    CreateTargetMode(TargetModes[22], 1366, 768, 60);
-    CreateTargetMode(TargetModes[23], 1360, 768, 60);
-    CreateTargetMode(TargetModes[24], 1280, 1024, 60);
-    CreateTargetMode(TargetModes[25], 1280, 960, 60);
-    CreateTargetMode(TargetModes[26], 1280, 800, 60);
-    CreateTargetMode(TargetModes[27], 1280, 768, 60);
-    CreateTargetMode(TargetModes[28], 1280, 720, 60);
-    CreateTargetMode(TargetModes[29], 1280, 600, 60);
-    CreateTargetMode(TargetModes[30], 1152, 864, 60);
-    CreateTargetMode(TargetModes[31], 1024, 768, 60);
-    CreateTargetMode(TargetModes[32], 800, 600, 60);
-    CreateTargetMode(TargetModes[33], 640, 480, 60);
+    for (int i = 0; i < monitorModes.size(); i++) {
+        CreateTargetMode(TargetModes[i], std::get<0>(monitorModes[i]), std::get<1>(monitorModes[i]), std::get<2>(monitorModes[i]));
+    }
 
     pOutArgs->TargetModeBufferOutputCount = (UINT)TargetModes.size();
 
