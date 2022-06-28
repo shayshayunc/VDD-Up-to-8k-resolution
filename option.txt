@@ -1,6 +1,6 @@
 1
 #lines beginning with "#" are ignored (comment)
-#the first line mush be a positive integer (small number (<5) is recommended)), NOT comment
+#the first line must be a positive integer (small number (<5) is recommended)), NOT comment
 #(currently) the location of this file must be "C:\IddSampleDriver\option.txt" (hard-coded)
 #numbers should be separated by comma
 #spaces before number are allowed
