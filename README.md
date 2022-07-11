@@ -14,7 +14,9 @@ The driver should be automatically installed and should be working out of the bo
 
 ### Manually
 
-Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver **(important!)**. See https://github.com/roshkins/IddSampleDriver/releases for the rest of the installation steps.
+1. Download the latest version from the [releases](https://github.com/ge9/IddSampleDriver/releases/latest) page, and extract the contents to a folder.
+2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver **(important!)**.
+3. See the [guide](https://github.com/roshkins/IddSampleDriver/releases) in @roshkins repo for the rest of the installation steps.
 
 ## Configuration
 Configure `C:\IddSampleDriver\option.txt` to set the number of monitors and resolutions.
