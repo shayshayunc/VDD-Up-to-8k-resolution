@@ -1,18 +1,34 @@
 License MIT and CC0 or Public Domain (for changes I made, check with Microsoft for their license), whichever is least restrictive -- Use it
 
 AS IS - NO IMPLICIT OR EXPLICIT warranty This may break your computer, it didn't break mine. It runs in User Mode which means it's less likely to cause system instability like the Blue Screen of Death.
-Check out the latest release to download, or find other versions below:
+Check out the [latest release](https://github.com/ge9/IddSampleDriver/releases/tag/0.0.1.2) to download, or see the original repo below:
 
-https://github.com/ge9/IddSampleDriver/releases
-
-If you want me to build on this donate eth or similar here: 0xB01b6328F8Be53c852a54432bbEe630cE0Bd559a
-I now have a NEAR address: moopaloo.near
+https://github.com/roshkins/IddSampleDriver
 
 Thanks to https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
 
 # Indirect Display Driver Sample #
 
 This is a sample driver that shows how to create a Windows Indirect Display Driver using the IddCx class extension driver.
+
+## Installation
+
+### Scoop (recommended)
+If you have [Scoop](https://scoop.sh/), you can easily install this driver in one go. In an elevated prompt, run:
+```powershell
+scoop bucket add nonportable
+scoop install iddsampledriver-ge9-np -g
+```
+The driver should be automatically installed and should be working out of the box.
+
+### Manually
+
+Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver **(important!)**. See https://github.com/roshkins/IddSampleDriver/releases for the rest of the installation steps.
+
+## Configuration
+Configure `C:\IddSampleDriver\option.txt` to set the number of monitors and resolutions.
+See `option.txt`
+
 
 ## Background reading ##
 
