@@ -7,6 +7,7 @@ This is a sample driver that shows how to create a Windows Indirect Display Driv
 ### Scoop (recommended)
 If you have [Scoop](https://scoop.sh/), you can easily install this driver in one go. In an elevated prompt, run:
 ```powershell
+scoop bucket add extras
 scoop bucket add nonportable
 scoop install iddsampledriver-ge9-np -g
 ```
