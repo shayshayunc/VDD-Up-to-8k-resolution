@@ -87,9 +87,11 @@ The sample driver code is very simplistic and does nothing more than enumerate a
 
 ## License
 
-License MIT and CC0 or Public Domain (for changes I made, check with Microsoft for their license), whichever is least restrictive -- Use it
+MIT and CC0 or Public Domain (for changes I made, please consult Microsoft for their license), choose the least restrictive option.
 
-AS IS - NO IMPLICIT OR EXPLICIT warranty This may break your computer, it didn't break mine. It runs in User Mode which means it's less likely to cause system instability like the Blue Screen of Death.
+## Disclaimer:
+
+This software is provided "AS IS" with NO IMPLICIT OR EXPLICIT warranty. It's worth noting that while this software functioned without issues on my system, there is no guarantee that it will not impact your computer. It operates in User Mode, which reduces the likelihood of causing system instability, such as the Blue Screen of Death. However, exercise caution when using this software.
 
 ## Acknowledgements
 
