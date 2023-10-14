@@ -63,7 +63,10 @@ AS IS - NO IMPLICIT OR EXPLICIT warranty This may break your computer, it didn't
 
 ## Acknowledgements
 
-See the original repo below:
+See the original repo:
 https://github.com/roshkins/IddSampleDriver
+
+Microsoft Indirect Display Driver/Sample: 
+https://github.com/microsoft/Windows-driver-samples/tree/master/video/IndirectDisplay
 
 Thanks to https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
