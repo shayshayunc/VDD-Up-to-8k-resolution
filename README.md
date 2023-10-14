@@ -1,7 +1,9 @@
 # Virtual Display Driver
-based on Microsoft Indirect Display Driver Sample
+based on Microsoft Indirect Display Driver Sample.
 
-This is a sample driver that shows how to create a Windows Indirect Display Driver using the IddCx class extension driver.
+Supports emulating resolutions from 640 x 480 to 7680 x 4320 (8K), and refresh rates including 60hz, 75hz, 120hz, 144hz, and 240hz.
+
+This project uses the official Windows Indirect Display Driver combined with the IddCx class extension driver.
 
 ## Installation
 
