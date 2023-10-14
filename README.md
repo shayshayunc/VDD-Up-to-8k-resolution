@@ -46,7 +46,7 @@ This project uses the official Windows Indirect Display Driver combined with the
     3200 x 2400
     3840 x 2400
 
-**Aspect Ratio 4:3/Other:**
+**Aspect Ratio 4:3:**
 
     640 x 480
     800 x 600
