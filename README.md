@@ -8,7 +8,7 @@ This project uses the official Windows Indirect Display Driver combined with the
 ## Installation
 
 1. Download the latest version from the releases page, and extract the contents to a folder.
-**2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver (important!)**.
+2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver **(important!)**.
 3. Right click and run the *.bat file **as an Administrator** to add the driver certificate as a trusted root certificate.
 4. Don't install the inf. Open device manager, click on any device, then click on the "Action" menu and click "Add Legacy Hardware".
 5. Select "Add hardware from a list (Advanced)" and then select Display adapters
@@ -19,40 +19,45 @@ This project uses the official Windows Indirect Display Driver combined with the
 
 ### Resolutions:
 
+**Aspect Ratio 16:9 (Widescreen):**
+
+    1280 x 720
+    1360 x 768
+    1366 x 768
+    1600 x 900
+    1920 x 1080
+    2560 x 1440
+    2880 x 1620
+    3008 x 1692
+    3840 x 2160
+    4096 x 2304
+    5120 x 2880
+    6016 x 3384
+    7680 x 4320
+
+**Aspect Ratio 16:10:**
+
+    1280 x 800
+    1440 x 900
+    1680 x 1050
+    1920 x 1200
+    2560 x 1600
+    2880 x 1800
+    3200 x 2400
+    3840 x 2400
+
+**Aspect Ratio 4:3:**
+
     640 x 480
     800 x 600
     1024 x 768
     1152 x 864
-    1280 x 600
-    1280 x 720
     1280 x 768
-    1280 x 800
     1280 x 960
     1280 x 1024
-    1360 x 768
-    1366 x 768
     1400 x 1050
-    1440 x 900
-    1600 x 900
-    1680 x 1050
+    1440 x 1440
     1600 x 1024
-    1920 x 1080
-    1920 x 1200
-    1920 x 1440
-    2560 x 1440
-    2560 x 1600
-    2880 x 1620
-    2880 x 1800
-    3008 x 1692
-    3200 x 1800
-    3200 x 2400
-    3840 x 2160
-    3840 x 2400
-    4096 x 2304
-    4096 x 2560
-    5120 x 2880
-    6016 x 3384
-    7680 x 4320
 
 ### Refresh Rates:
 
@@ -82,9 +87,11 @@ The sample driver code is very simplistic and does nothing more than enumerate a
 
 ## License
 
-License MIT and CC0 or Public Domain (for changes I made, check with Microsoft for their license), whichever is least restrictive -- Use it
+MIT and CC0 or Public Domain (for changes I made, please consult Microsoft for their license), choose the least restrictive option.
 
-AS IS - NO IMPLICIT OR EXPLICIT warranty This may break your computer, it didn't break mine. It runs in User Mode which means it's less likely to cause system instability like the Blue Screen of Death.
+## Disclaimer:
+
+This software is provided "AS IS" with NO IMPLICIT OR EXPLICIT warranty. It's worth noting that while this software functioned without issues on my system, there is no guarantee that it will not impact your computer. It operates in User Mode, which reduces the likelihood of causing system instability, such as the Blue Screen of Death. However, exercise caution when using this software.
 
 ## Acknowledgements
 
