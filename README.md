@@ -30,8 +30,8 @@ This project uses the official Windows Indirect Display Driver combined with the
     1280 x 1024
     1360 x 768
     1366 x 768
-    1400 x 1050
     1440 x 900
+    1400 x 1050
     1440 x 1440
     1600 x 900
     1600 x 1024
@@ -53,7 +53,10 @@ This project uses the official Windows Indirect Display Driver combined with the
 ### Refresh Rates:
 
     60Hz
+    75Hz
     120Hz
+    144Hz
+    240Hz
     
 ### Screenshots:
 
