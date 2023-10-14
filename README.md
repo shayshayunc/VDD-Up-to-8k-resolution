@@ -1,4 +1,5 @@
-# Indirect Display Driver Sample
+# Virtual Display Driver
+based on Microsoft Indirect Display Driver Sample
 
 This is a sample driver that shows how to create a Windows Indirect Display Driver using the IddCx class extension driver.
 
@@ -94,10 +95,10 @@ AS IS - NO IMPLICIT OR EXPLICIT warranty This may break your computer, it didn't
 
 ## Acknowledgements
 
-See the original repo:
+Shoutout to Roshkins for the original repo:
 https://github.com/roshkins/IddSampleDriver
 
-Microsoft Indirect Display Driver/Sample: 
+Microsoft Indirect Display Driver/Sample (Driver code): 
 https://github.com/microsoft/Windows-driver-samples/tree/master/video/IndirectDisplay
 
 Thanks to https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
