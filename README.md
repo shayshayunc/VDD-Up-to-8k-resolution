@@ -1,24 +1,21 @@
-# Indirect Display Driver Sample
+# Virtual Display Driver
+based on Microsoft Indirect Display Driver Sample.
 
-This is a sample driver that shows how to create a Windows Indirect Display Driver using the IddCx class extension driver.
+Supports emulating resolutions from 640 x 480 to 7680 x 4320 (8K), and refresh rates including 60hz, 75hz, 120hz, 144hz, and 240hz.
+
+This project uses the official Windows Indirect Display Driver combined with the IddCx class extension driver.
 
 ## Installation
 
-### Scoop (recommended)
-If you have [Scoop](https://scoop.sh/), you can easily install this driver in one go. In an elevated prompt, run:
-```powershell
-scoop bucket add extras
-scoop bucket add nonportable
-scoop install iddsampledriver-ge9-np -g
-```
-The driver should be automatically installed and should be working out of the box.
-
-### Manually
-
 1. Download the latest version from the releases page, and extract the contents to a folder.
-2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver **(important!)**.
-3. See the [guide](https://github.com/roshkins/IddSampleDriver/releases) in [roshkins repo](https://github.com/roshkins/IddSampleDriver) for the rest of the installation steps.
-You can use the following resolutions and refresh rates:
+**2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver (important!)**.
+3. Right click and run the *.bat file **as an Administrator** to add the driver certificate as a trusted root certificate.
+4. Don't install the inf. Open device manager, click on any device, then click on the "Action" menu and click "Add Legacy Hardware".
+5. Select "Add hardware from a list (Advanced)" and then select Display adapters
+6. Click "Have Disk..." and click the "Browse..." button. Navigate to the extracted files and select the inf file.
+7. You are done! Go to display settings to customize the resolution of the additional displays. These displays show up in Sunshine, your Oculus or VR settings, and should be able to be streamed from.
+8. You can enable/disable the display adapter to toggle the monitors.
+
 
 ### Resolutions:
 
@@ -94,10 +91,10 @@ AS IS - NO IMPLICIT OR EXPLICIT warranty This may break your computer, it didn't
 
 ## Acknowledgements
 
-See the original repo:
+Shoutout to Roshkins for the original repo:
 https://github.com/roshkins/IddSampleDriver
 
-Microsoft Indirect Display Driver/Sample: 
+Microsoft Indirect Display Driver/Sample (Driver code): 
 https://github.com/microsoft/Windows-driver-samples/tree/master/video/IndirectDisplay
 
 Thanks to https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
