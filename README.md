@@ -15,14 +15,55 @@ The driver should be automatically installed and should be working out of the bo
 
 ### Manually
 
-1. Download the latest version from the [releases](https://github.com/ge9/IddSampleDriver/releases/latest) page, and extract the contents to a folder.
+1. Download the latest version from the releases page, and extract the contents to a folder.
 2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver **(important!)**.
 3. See the [guide](https://github.com/roshkins/IddSampleDriver/releases) in [roshkins repo](https://github.com/roshkins/IddSampleDriver) for the rest of the installation steps.
+You can use the following resolutions and refresh rates:
 
-## Configuration
-Configure `C:\IddSampleDriver\option.txt` to set the number of monitors and resolutions.
-See `option.txt`
+### Resolutions:
 
+    640 x 480
+    800 x 600
+    1024 x 768
+    1152 x 864
+    1280 x 600
+    1280 x 720
+    1280 x 768
+    1280 x 800
+    1280 x 960
+    1280 x 1024
+    1360 x 768
+    1366 x 768
+    1400 x 1050
+    1440 x 900
+    1600 x 900
+    1680 x 1050
+    1600 x 1024
+    1920 x 1080
+    1920 x 1200
+    1920 x 1440
+    2560 x 1440
+    2560 x 1600
+    2880 x 1620
+    2880 x 1800
+    3008 x 1692
+    3200 x 1800
+    3200 x 2400
+    3840 x 2160
+    3840 x 2400
+    4096 x 2304
+    4096 x 2560
+    5120 x 2880
+    6016 x 3384
+    7680 x 4320
+
+### Refresh Rates:
+
+    60Hz
+    75Hz
+    120Hz
+    144Hz
+    240Hz
 
 ## Background reading ##
 
@@ -44,16 +85,6 @@ The sample driver code is very simplistic and does nothing more than enumerate a
     * Processes device callbacks from IddCx.
     * Manages the creation and arrival of the sample monitor.
     * Handles swap-chain arrival and departure by creating a `Direct3DDevice` and handing it off to a `SwapChainProcessor`.
-
-### First steps ###
-
-Consider the capabilities of your device. If the device supports multiple monitors being hotplugged and removed at runtime, you may want to abstract the monitors further from the `IndirectDeviceContext` class.
-
-The INF file included in the sample needs updating for production use. One field, `DeviceGroupId`, controls how the UMDF driver gets pooled with other UMDF drivers in the same process. Since indirect display drivers tend to be more complicated than other driver classes, it's highly recommended that you pick a unique string for this field which will cause instances of your device driver to pool in a dedicated process. This will improve system reliability in case your driver encounters a problem since other drivers will not be affected.
-
-Ensure the device information reported to `IddCxAdapterInitAsync` is accurate. This information determines how the device is reported to the OS and what static features (like support for gamma tables) the device will have available. If some information cannot be known immediately in the `EvtDeviceD0Entry` callback, IddCx allows the driver to call `IddCxAdapterInitAsync` at any point after D0 entry, before D0 exit.
-
-Careful attention should be paid to the frame processing loop. This will directly impact the performance of the user's system, so making use of the [Multimedia Class Scheduler Service](https://msdn.microsoft.com/en-us/library/windows/desktop/ms684247(v=vs.85).aspx) and DXGI's support for [GPU prioritization](https://msdn.microsoft.com/en-us/library/windows/desktop/bb174534(v=vs.85).aspx) should be considered. Any significant work should be performed outside the main processing loop, such as by queuing work in a thread pool. See `SwapChainProcessor::RunCore` for more information.
 
 ## License
 
