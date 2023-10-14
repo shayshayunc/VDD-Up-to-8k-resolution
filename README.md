@@ -1,7 +1,7 @@
 # Virtual Display Driver
 based on Microsoft Indirect Display Driver Sample.
 
-Supports emulating resolutions from 640 x 480 to 7680 x 4320 (8K), and refresh rates including 60hz, 75hz, 120hz, 144hz, and 240hz.
+Supports emulating resolutions from 640 x 480 to 7680 x 4320 (8K), and refresh rates including 60hz and 120hz.
 
 This project uses the official Windows Indirect Display Driver combined with the IddCx class extension driver.
 
@@ -57,10 +57,7 @@ This project uses the official Windows Indirect Display Driver combined with the
 ### Refresh Rates:
 
     60Hz
-    75Hz
     120Hz
-    144Hz
-    240Hz
 
 ## Background reading ##
 
