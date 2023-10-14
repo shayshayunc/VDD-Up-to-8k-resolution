@@ -53,7 +53,10 @@ This project uses the official Windows Indirect Display Driver combined with the
 ### Refresh Rates:
 
     60Hz
+    75Hz
     120Hz
+    144Hz
+    240Hz
     
 ### Screenshots:
 
