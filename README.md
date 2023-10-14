@@ -5,15 +5,6 @@ Supports emulating resolutions from 640 x 480 to 7680 x 4320 (8K), and refresh r
 
 This project uses the official Windows Indirect Display Driver combined with the IddCx class extension driver.
 
-![image](https://github.com/itsmikethetech/Virtual-Display-Driver/assets/25166211/0f1dfed6-c9ac-4cb6-92cf-7d9ab2ac0c66)
-
-![image](https://github.com/itsmikethetech/Virtual-Display-Driver/assets/25166211/5cb8ce08-890f-4bc1-a1a6-34f22e103699)
-
-![image](https://github.com/itsmikethetech/Virtual-Display-Driver/assets/25166211/02af86f2-b896-4265-9174-b17c9a1aeab7)
-
-
-
-
 ## Installation
 
 1. Download the latest version from the releases page, and extract the contents to a folder.
@@ -72,6 +63,15 @@ This project uses the official Windows Indirect Display Driver combined with the
 
     60Hz
     120Hz
+    
+### Screenshots:
+
+![image](https://github.com/itsmikethetech/Virtual-Display-Driver/assets/25166211/0f1dfed6-c9ac-4cb6-92cf-7d9ab2ac0c66)
+
+![image](https://github.com/itsmikethetech/Virtual-Display-Driver/assets/25166211/5cb8ce08-890f-4bc1-a1a6-34f22e103699)
+
+![image](https://github.com/itsmikethetech/Virtual-Display-Driver/assets/25166211/02af86f2-b896-4265-9174-b17c9a1aeab7)
+
 
 ## Background reading ##
 
