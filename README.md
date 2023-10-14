@@ -7,17 +7,6 @@ This project uses the official Windows Indirect Display Driver combined with the
 
 ## Installation
 
-### Scoop (recommended)
-If you have [Scoop](https://scoop.sh/), you can easily install this driver in one go. In an elevated prompt, run:
-```powershell
-scoop bucket add extras
-scoop bucket add nonportable
-scoop install iddsampledriver-ge9-np -g
-```
-The driver should be automatically installed and should be working out of the box.
-
-### Manually
-
 1. Download the latest version from the releases page, and extract the contents to a folder.
 **2. Copy `option.txt` to `C:\IddSampleDriver\option.txt` before installing the driver (important!)**.
 3. Right click and run the *.bat file **as an Administrator** to add the driver certificate as a trusted root certificate.
