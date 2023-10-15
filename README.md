@@ -72,11 +72,9 @@ This project uses the official Windows Indirect Display Driver combined with the
 
 Start at the [Indirect Display Driver Model Overview](https://msdn.microsoft.com/en-us/library/windows/hardware/mt761968(v=vs.85).aspx) on MSDN.
 
-## Customizing the sample ##
-
-The sample driver code is very simplistic and does nothing more than enumerate a single monitor when its device enters the D0/started power state. Throughout the code, there are `TODO` blocks with important information on implementing functionality in a production driver.
-
 ### Code structure ###
+
+The sample driver code is very simplistic and does nothing more than enumerate a single monitor when its device enters the D0/started power state. The IDD runs in Session 0 without any components running in the user session, so any driver instability will not affect the stability of the system as a whole. The IDD is a user-mode only model with no support for kernel-mode components. As such, the driver is able to use any DirectX APIs in order to process the desktop image. In fact, the IddCx provides the desktop image to encode in a DirectX surface.
 
 * `Direct3DDevice` class
     * Contains logic for enumerating the correct render GPU from DXGI and creating a D3D device.
