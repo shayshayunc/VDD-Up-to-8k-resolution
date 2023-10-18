@@ -61,7 +61,7 @@ This project uses the official Windows Indirect Display Driver combined with the
 
 ### Video
 
-[![How to install a virtual display]([http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg](https://i3.ytimg.com/vi/byfBWDnToYk/maxresdefault.jpg))](https://youtu.be/byfBWDnToYk "How to install a virtual display")
+[![How to install a virtual display]([[http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg](https://i3.ytimg.com/vi/byfBWDnToYk/maxresdefault.jpg)](https://i3.ytimg.com/vi/byfBWDnToYk/maxresdefault.jpg))](https://youtu.be/byfBWDnToYk "How to install a virtual display")
 
 ### Screenshots:
 
