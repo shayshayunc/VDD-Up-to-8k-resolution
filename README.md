@@ -40,6 +40,7 @@ This project uses the official Windows Indirect Display Driver combined with the
     1920 x 1200
     2560 x 1440
     2560 x 1600
+    2732 x 2048
     2880 x 1620
     2880 x 1800
     3008 x 1692
