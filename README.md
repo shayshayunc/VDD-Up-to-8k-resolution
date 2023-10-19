@@ -112,3 +112,4 @@ Thanks to https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=itsmikethetech/Virtual-Display-Driver&type=Date)](https://star-history.com/#itsmikethetech/Virtual-Display-Driver&Date)
+
