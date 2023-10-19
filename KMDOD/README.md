@@ -1,3 +1,5 @@
+### THIS SAMPLE IS INCOMPLETE - Currently a Work in Progress attempt at HDR and 10-bit video support.
+
 ---
 page_type: sample
 description: "Implements most DDIs that a display-only miniport driver should provide to the Windows Display Driver Model (WDDM)."
