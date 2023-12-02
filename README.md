@@ -5,6 +5,11 @@ Supports emulating resolutions from **640 x 480** to **7680 x 4320 (8K)**, and r
 
 This project uses the official Windows Indirect Display Driver combined with the IddCx class extension driver.
 
+## Download
+
+    [Windows 10 and 11 (no HDR)](https://github.com/itsmikethetech/Virtual-Display-Driver/releases/tag/23.10.20.2)
+    [Windows 11 22H2+ (HDR)](https://github.com/itsmikethetech/Virtual-Display-Driver/releases/tag/23.12.2HDR)
+ 
 ## Installation
 
 1. Download the latest version from the releases page, and extract the contents to a folder.
