@@ -16,6 +16,7 @@ This project uses the official Windows Indirect Display Driver combined with the
 7. You are done! Go to display settings to customize the resolution of the additional displays. These displays show up in Sunshine, your Oculus or VR settings, and should be able to be streamed from.
 8. You can enable/disable the display adapter to toggle the monitors.
 
+## HDR Support Now Available
 
 ### Resolutions:
 
@@ -140,6 +141,11 @@ This software is provided "AS IS" with NO IMPLICIT OR EXPLICIT warranty. It's wo
 
 Shoutout to Roshkins for the original repo:
 https://github.com/roshkins/IddSampleDriver
+
+Shoutout to Baloukj for being the first to push the new Microsoft Driver public.
+https://github.com/baloukj/IddSampleDriver
+
+Shoutout to Anakngtokwa for assisting with finding driver sources.
 
 Microsoft Indirect Display Driver/Sample (Driver code): 
 https://github.com/microsoft/Windows-driver-samples/tree/master/video/IndirectDisplay
