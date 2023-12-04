@@ -146,18 +146,18 @@ This software is provided "AS IS" with NO IMPLICIT OR EXPLICIT warranty. It's wo
 
 ## Acknowledgements
 
-Shoutout to Roshkins for the original repo:
+Shoutout to **Roshkins** for the original repo:
 https://github.com/roshkins/IddSampleDriver
 
-Shoutout to Baloukj for being the first to push the new Microsoft Driver public.
+Shoutout to **Baloukj** for being the first to push the new Microsoft Driver public.
 https://github.com/baloukj/IddSampleDriver
 
-Shoutout to Anakngtokwa for assisting with finding driver sources.
+Shoutout to **Anakngtokwa** for assisting with finding driver sources.
 
-Microsoft Indirect Display Driver/Sample (Driver code): 
+**Microsoft** Indirect Display Driver/Sample (Driver code): 
 https://github.com/microsoft/Windows-driver-samples/tree/master/video/IndirectDisplay
 
-Thanks to https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
+Thanks to **AKATrevorJay** https://github.com/akatrevorjay/edid-generator for the hi-res EDID.
 
 ## Star History
 
