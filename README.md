@@ -27,13 +27,13 @@ Ps. Make sure that options.txt is accesible for the system at `C:\IddSampleDrive
 
 1. Open device manager
 2. Locate Display Adapters
-3. Right click on IddSampleDriver, chose "Uninstall device"
-4. There is a new popup windwow, in there click Attempt to remoe driver for this device.
+3. Right click on IddSampleDriver, choose "Uninstall device"
+4. There is a new popup window, in there click Attempt to remove driver for this device.
 
 Next instructions are for those cases where the device is removed from the system, but driver stil remains. This happens when there is a connection to the device while trying to remove the drivers. To
-remedy this, there is a a few tricks builtin to windows. So here goes:
+remedy this, there is a a few tricks built into windows. So here goes:
 
-5. Open up a powershell terminal and iinput this:
+5. Open up a powershell terminal and input this:
 6.  ```pnputil /enum-drivers```
 6. Locate iddsampledriver.inf, there might be multiple pages of text. Make a note of the "published name", it's often unique for your system, but might look like "oem139.inf"
 7.  ```pnputil /delete-driver oem139.inf```
