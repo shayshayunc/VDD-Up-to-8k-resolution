@@ -21,6 +21,23 @@ This project uses the official Windows Indirect Display Driver combined with the
 7. You are done! Go to display settings to customize the resolution of the additional displays. These displays show up in Sunshine, your Oculus or VR settings, and should be able to be streamed from.
 8. You can enable/disable the display adapter to toggle the monitors.
 
+Ps. Make sure that options.txt is accesible for the system at `C:\IddSampleDriver\option.txt` or the installation will fail.
+
+## Uninstalling
+
+1. Open device manager
+2. Locate Display Adapters
+3. Right click on IddSampleDriver, choose "Uninstall device"
+4. There is a new popup window, in there click Attempt to remove driver for this device.
+
+Next instructions are for those cases where the device is removed from the system, but driver stil remains. This happens when there is a connection to the device while trying to remove the drivers. To
+remedy this, there is a a few tricks built into windows. So here goes:
+
+5. Open up a powershell terminal and input this:
+6.  ```pnputil /enum-drivers```
+6. Locate iddsampledriver.inf, there might be multiple pages of text. Make a note of the "published name", it's often unique for your system, but might look like "oem139.inf"
+7.  ```pnputil /delete-driver oem139.inf```
+
 ## HDR Support Now Available for Windows 11 22H2+ 
 
 ### Resolutions:
