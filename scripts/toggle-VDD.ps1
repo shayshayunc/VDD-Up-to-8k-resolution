@@ -1,11 +1,14 @@
-$deviceId = 'ROOT\DISPLAY\0000' 
-$device   = Get-PnpDevice -InstanceId $deviceId -ErrorAction SilentlyContinue
+$device   = get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' -ErrorAction SilentlyContinue
 if ($device) {
     switch ($device.Status) {
-        'OK'    { Write-Host "Disabling device"; Disable-PnpDevice -InstanceId $deviceId -Confirm:$false; break }
-        default { Write-Host "Enabling device";  Enable-PnpDevice -InstanceId $deviceId -Confirm:$false }
+        'OK'    { 
+            Write-Host "Disabling device"; get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' | disable-pnpdevice -Confirm:$false ; break 
+        }
+        default { 
+            Write-Host "Enabling device";  get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' | enable-pnpdevice -Confirm:$false 
+        }
     }
 }
 else {
-    Write-Warning "Device with ID '$deviceId' not found"
+    Write-Warning "Device not found"
 }
