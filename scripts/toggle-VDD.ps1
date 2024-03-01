@@ -1,14 +1,20 @@
-$device   = get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' -ErrorAction SilentlyContinue
-if ($device) {
-    switch ($device.Status) {
-        'OK'    { 
-            Write-Host "Disabling device"; get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' | disable-pnpdevice -Confirm:$false ; break 
-        }
-        default { 
-            Write-Host "Enabling device";  get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' | enable-pnpdevice -Confirm:$false 
-        }
+ # Self-elevate the script if required
+ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
+    if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
+        $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
+        Exit
     }
-}
-else {
+ }
+
+$device = get-pnpdevice -class Display -FriendlyName 'IddSampleDriver Device HDR' -ErrorAction SilentlyContinue
+
+if ($device) {
+    if ($device.Status -eq 'OK') {
+        Write-Host "Disabling device"; $device | disable-pnpdevice -Confirm:$false
+    } else {
+        Write-Host "Enabling device"; $device | enable-pnpdevice -Confirm:$false
+    }
+} else {
     Write-Warning "Device not found"
 }
