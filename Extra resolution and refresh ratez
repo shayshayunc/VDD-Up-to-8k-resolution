@@ -1,0 +1,52 @@
+[user]
+    name = ShayShayUnc
+    email = Shannonturner030@gmail.com
+[resolution "4k"]
+    width = 3840
+    height = 2160
+    refreshRate1 = 60Hz
+    refreshRate2 = 120Hz
+    refreshRate3 = 240Hz
+
+[resolution "5k"]
+    width = 5120
+    height = 2880
+    refreshRate1 = 60Hz
+    refreshRate2 = 120Hz
+    refreshRate3 = 240Hz
+
+[resolution "6k"]
+    width = 6144
+    height = 3160
+    refreshRate1 = 60Hz
+    refreshRate2 = 120Hz
+    refreshRate3 = 240Hz
+
+[resolution "7k"]
+    width = 7168
+    height = 3780
+    refreshRate1 = 60Hz
+    refreshRate2 = 120Hz
+    refreshRate3 = 240Hz
+
+   [resolution "8k"]
+    width = 7680
+    height = 4320
+    refreshRate1 = 60Hz
+    refreshRate2 = 120Hz
+     refreshRate3 = 240Hz
+    [colorDepth]
+     depth24 = 24-bit
+     depth32 = 32-bit
+
+    [orientation]
+    portrait = Portrait
+    landscape = Landscape
+
+    [scaling]
+    factor1 = 1x
+    factor2 = 2x
+
+
+git diff
+git add
